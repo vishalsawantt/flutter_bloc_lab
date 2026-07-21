@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1023278964866",
+    "project_id": "flutterpractices-f6607",
+    "storage_bucket": "flutterpractices-f6607.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023278964866:android:46e2c2a9f36a5b35a6d49b",
+        "android_client_info": {
+          "package_name": "com.vishalsawant.flutter_bloc_lab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpu2NDMphepXZ05qbiSbPHuo7-RqXaO3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

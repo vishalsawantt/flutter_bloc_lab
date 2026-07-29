@@ -79,8 +79,8 @@ class _MainScreenState extends State<MainScreen> {
                     name: nameController.text, 
                     city: cityController.text
                   );
-                  //context.read<StudentCubit>().addStudent(student);
-                  context.read<StudentBloc>().add(AddStudent(student));
+                  context.read<StudentCubit>().addStudent(student);
+                  //context.read<StudentBloc>().add(AddStudent(student));
                   Navigator.pop(context);
                 } else {
                   final updatedStudent =  StudentModel(

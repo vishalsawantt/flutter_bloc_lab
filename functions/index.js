@@ -7,9 +7,15 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
+const { setGlobalOptions } = require("firebase-functions");
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const admin = require("firebase-admin");
+const { event } = require("firebase-functions/v1/analytics");
+
+admin.initializeApp();
+
+setGlobalOptions({ maxInstances: 10 });
+
 
 // For cost control, you can set the maximum number of containers that can be
 // running at the same time. This helps mitigate the impact of unexpected
@@ -21,7 +27,6 @@ const logger = require("firebase-functions/logger");
 // functions should each use functions.runWith({ maxInstances: 10 }) instead.
 // In the v1 API, each function can only serve one request per container, so
 // this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
 
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
@@ -30,3 +35,35 @@ setGlobalOptions({ maxInstances: 10 });
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+exports.onStudentCreated = onDocumentCreated(
+    "studentsDetails/{studentId}",
+    async (event) => {
+        const student = event.data.data();
+
+        console.log(student);
+
+        const snapshot = await admin
+            .firestore()
+            .collection("deviceTokens")
+            .get();
+
+        for (const doc of snapshot.docs) {
+
+            const message = {
+                notification: {
+                    title: "New Student Added",
+                    body: `${student.name} from ${student.city} has been registered.`,
+                },
+                "data": {
+                    "type": "student_created"
+                },
+                token: doc.data().token,
+            };
+
+            const response = await admin.messaging().send(message);
+
+            console.log("Notification sent:", response);
+        }
+    }
+);

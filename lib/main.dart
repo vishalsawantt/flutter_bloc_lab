@@ -2,11 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_lab/core/services/firebase_messaging_service.dart';
+import 'package:flutter_bloc_lab/core/services/local_notification_service.dart';
 import 'package:flutter_bloc_lab/features/real-firebase-data/data/services/services.dart';
 import 'package:flutter_bloc_lab/features/real-firebase-data/domain/repository.dart';
 import 'package:flutter_bloc_lab/features/real-firebase-data/presentation/bloc/student_bloc.dart';
 import 'package:flutter_bloc_lab/features/real-firebase-data/presentation/cubit/data_cubit.dart';
 import 'package:flutter_bloc_lab/features/real-firebase-data/presentation/screens/ui_screen.dart';
+import 'package:flutter_bloc_lab/features/rest-api-with-bloc/data/repository/repository.dart';
+import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/product_bloc.dart';
+import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
 
 import 'features/listfeatch/data/services/local_data_source.dart';
@@ -21,9 +25,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // notification relted code
-  final notificationService = NotificationService();
-  await notificationService.initialize();
+  // await LocalNotificationService.initialize();
+
+  // // notification relted code
+  // final notificationService = NotificationService();
+  // await notificationService.initialize();
 
   print("App Started");
   
@@ -75,6 +81,11 @@ class MyApp extends StatelessWidget {
         ),
       ),
     ),
+    BlocProvider(
+  create: (_) => ProductBloc(
+    ProductRepository(),
+  ),
+),
 
   ],
       child: MaterialApp(
@@ -84,7 +95,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const MainScreen(),
+        home: const ProductListScreen(),
       ),
     );
   }

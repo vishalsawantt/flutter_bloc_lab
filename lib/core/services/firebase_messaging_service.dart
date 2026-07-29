@@ -1,28 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_bloc_lab/core/services/local_notification_service.dart';
+import 'package:flutter_bloc_lab/core/services/notification_type.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
+// handle notificaon when app is background
 @pragma('vm:entry-point')
 Future<void> firebaseMessgingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("========== BACKGROUND ==========");
-
-  print("Title : ${message.notification?.title}");
-  print("Body  : ${message.notification?.body}");
-  print("Data  : ${message.data}");
-
-  print("================================");
 }
 
 class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  //-------------------------------------------------------------
   Future<void> initialize() async {
     await _requestPermission();
     await _getFCMToken();
 
+    // flutter inbuild method call for handle background notofication
     FirebaseMessaging.onBackgroundMessage(firebaseMessgingBackgroundHandler);
 
     onForegroundNotification();
@@ -30,14 +28,12 @@ class NotificationService {
     onTerminatedNotification();
   }
 
+  //-------------------------------------------------------------
   Future<void> _requestPermission() async {
-    await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    await _messaging.requestPermission(alert: true, badge: true, sound: true);
   }
 
+  //-------------------------------------------------------------
   Future<void> _getFCMToken() async {
     final token = await _messaging.getToken();
     if (token != null) {
@@ -46,54 +42,54 @@ class NotificationService {
     }
   }
 
-  // Future<void> _saveTokenToFirestore(String token) async {
-  //   await _firestore.collection('deviceTokens').add({
-  //     'token' : token,
-  //     'createdAt' : FieldValue.serverTimestamp(),
-  //   });
-  //   print("Token saved successfully");
-  // }
-
   Future<void> _saveTokenToFirestore(String token) async {
     await _firestore.collection('deviceTokens').doc(token).set({
-      'token' : token,
-      'createdAt' : FieldValue.serverTimestamp(),
+      'token': token,
+      'createdAt': FieldValue.serverTimestamp(),
     });
     print("Token saved successfully");
   }
 
+  //-------------------------------------------------------------
+  // Foreground Notification Method
   void onForegroundNotification() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("========== FOREGROUND ==========");
-
-    print("Title : ${message.notification?.title}");
-    print("Body  : ${message.notification?.body}");
-    print("Data  : ${message.data}");
-
-    print("================================");
-    });
-  }
   
-  void onNotificationClick() {
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("========== CLICK FROM BACKGROUND ==========");
+      final channel = _getChannel(message.data["type"]);
 
-    print("Title : ${message.notification?.title}");
-    print("Body  : ${message.notification?.body}");
-
-    print("===========================================");
+      LocalNotificationService.showNotification(
+        channel: channel, 
+        title: message.notification?.title ?? "", 
+        body: message.notification?.body ?? "",
+      );
     });
   }
 
+  // Tereminted Notificaion Method
   Future<void> onTerminatedNotification() async {
-    RemoteMessage? message = await FirebaseMessaging.instance.getInitialMessage();
-    if (message != null) {
-      print("========== APP OPENED FROM TERMINATED ==========");
+    RemoteMessage? message = await FirebaseMessaging.instance
+        .getInitialMessage();
+    if (message != null) {}
+  }
 
-    print("Title : ${message.notification?.title}");
-    print("Body  : ${message.notification?.body}");
+  void onNotificationClick() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
+  }
 
-    print("================================================");
+  // helper method for foreground method for swithc statment
+  AndroidNotificationChannel _getChannel(String? type) {
+    switch (type) {
+      case NotificationType.studentCreated:
+        return LocalNotificationService.newStudentChannel;
+        
+      case NotificationType.expense:
+        return LocalNotificationService.expenseChannel;
+
+      case NotificationType.budgetExceeded:
+      return LocalNotificationService.budgetChannel;
+
+      default:
+      return LocalNotificationService.highImportanceChannel;
     }
   }
 }

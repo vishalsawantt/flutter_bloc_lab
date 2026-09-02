@@ -46,4 +46,20 @@ class NetworkApiServices extends BaseApiServices {
       rethrow;
     }
   }
+
+  @override
+  Future<dynamic> postApi(
+    String url, {
+      dynamic data,
+    }) async {
+      try {
+        final response = await _dio.post(
+          url,
+          data: data,
+        );
+        return response.data;
+      } on DioException catch (e) {
+        rethrow;
+      }
+    }
 }

@@ -19,4 +19,12 @@ class Productmodel {
       productprice: json['productprice'] as String
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productname' : productname,
+      'productdecr' : productdecr,
+      'productprice' : productprice,
+    };
+  }
 }

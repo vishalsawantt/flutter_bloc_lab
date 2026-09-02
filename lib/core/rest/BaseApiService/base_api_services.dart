@@ -3,4 +3,9 @@ abstract class BaseApiServices {
     String url, {
     Map<String, dynamic>? queryParameters,
   });
+
+  Future<dynamic> postApi(
+    String url, {
+      dynamic data,
+  });
 }

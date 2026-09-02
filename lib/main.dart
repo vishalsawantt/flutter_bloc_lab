@@ -12,12 +12,43 @@ import 'package:flutter_bloc_lab/features/rest-api-with-bloc/data/repository/rep
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/product_bloc.dart';
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
+import 'package:flutter_bloc_lab/ui-practices/loginscreen.dart';
 
 import 'features/listfeatch/data/services/local_data_source.dart';
 import 'features/listfeatch/domain/list_repository.dart';
 import 'features/listfeatch/presentation/cubit/list_cubit.dart';
 import 'features/listfeatch/presentation/screens/list_screen.dart';
 
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+
+//   // await LocalNotificationService.initialize();
+
+//   // // notification relted code
+//   // final notificationService = NotificationService();
+//   // await notificationService.initialize();
+
+//   print("App Started");
+  
+//   final repository = StudentRepository(StudentServices());
+//   final students = await repository.getStudents();
+//   print('------------------------------------------------------------------------------------------------------------------------------');
+//   for(final student in students) {
+//     print('ID : ${student.id}');
+//     print('Name : ${student.name}');
+//     print('city : ${student.city}');
+//   }
+//   print('------------------------------------------------------------------------------------------------------------------------------');
+
+//   runApp(const MyApp());
+// }
+
+
+//same code for ui screen run
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -25,23 +56,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // await LocalNotificationService.initialize();
-
-  // // notification relted code
-  // final notificationService = NotificationService();
-  // await notificationService.initialize();
-
   print("App Started");
-  
-  final repository = StudentRepository(StudentServices());
-  final students = await repository.getStudents();
-  print('------------------------------------------------------------------------------------------------------------------------------');
-  for(final student in students) {
-    print('ID : ${student.id}');
-    print('Name : ${student.name}');
-    print('city : ${student.city}');
-  }
-  print('------------------------------------------------------------------------------------------------------------------------------');
 
   runApp(const MyApp());
 }
@@ -88,6 +103,16 @@ class MyApp extends StatelessWidget {
 ),
 
   ],
+      // child: MaterialApp(
+      //   debugShowCheckedModeBanner: false,
+      //   theme: ThemeData(
+      //     colorScheme: ColorScheme.fromSeed(
+      //       seedColor: Colors.deepPurple,
+      //     ),
+      //   ),
+      //   home: const ProductListScreen(),
+      // ),
+
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -95,7 +120,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const ProductListScreen(),
+        home: const Loginscreen(),
       ),
     );
   }

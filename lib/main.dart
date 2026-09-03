@@ -12,6 +12,7 @@ import 'package:flutter_bloc_lab/features/rest-api-with-bloc/data/repository/rep
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/product_bloc.dart';
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
+import 'package:flutter_bloc_lab/ui-practices/counterscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/loginscreen.dart';
 
 import 'features/listfeatch/data/services/local_data_source.dart';
@@ -120,7 +121,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const Loginscreen(),
+        home: const Counterscreen(),
       ),
     );
   }

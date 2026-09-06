@@ -21,7 +21,16 @@ class _TodolistcrudState extends State<Todolistcrud> {
         child: ListView.builder(
           itemCount: notes.length,
           itemBuilder: (context, index) {
-            return ListTile(title: Text(notes[index]));
+            return ListTile
+              (title: Text(notes[index]),
+                trailing: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      notes.removeAt(index);
+                    });
+                  }, 
+                  icon: Icon(Icons.delete)),
+              );
           },
         ),
       ),

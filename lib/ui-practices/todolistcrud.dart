@@ -21,16 +21,50 @@ class _TodolistcrudState extends State<Todolistcrud> {
         child: ListView.builder(
           itemCount: notes.length,
           itemBuilder: (context, index) {
-            return ListTile
-              (title: Text(notes[index]),
-                trailing: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      notes.removeAt(index);
-                    });
-                  }, 
-                  icon: Icon(Icons.delete)),
-              );
+            return ListTile(
+              title: Text(notes[index]),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        notes.removeAt(index);
+                      });
+                    },
+                    icon: Icon(Icons.delete),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      noteController.text = notes[index];
+                      showDialog(
+                        context: context, 
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Update Note'),
+                            content: TextField(
+                              controller: noteController,
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (noteController.text.isNotEmpty) {
+                                      notes[index] = noteController.text;
+                                    }
+                                  });
+                                  noteController.clear();
+                                  Navigator.pop(context);
+                                }, child: Text('Update'))
+                            ],
+                          );
+                        });
+                    },
+                    icon: Icon(Icons.edit_note_outlined),
+                  ),
+                ],
+              ),
+            );
           },
         ),
       ),

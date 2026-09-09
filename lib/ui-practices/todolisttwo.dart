@@ -61,6 +61,7 @@ class _ToDoListState extends State<ToDoList> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          noteController.clear();
           showDialog(
             context: context,
             builder: (context) {
@@ -83,5 +84,11 @@ class _ToDoListState extends State<ToDoList> {
             });
       }, child: Icon(Icons.add)),
     ); 
+  }
+
+  @override
+  void dispose() {
+    noteController.dispose();
+    super.dispose();
   }
 }

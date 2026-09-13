@@ -12,6 +12,7 @@ import 'package:flutter_bloc_lab/features/rest-api-with-bloc/data/repository/rep
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/product_bloc.dart';
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crud/presentatation/bloc/todobloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/counterscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/loginscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/serchbar.dart';
@@ -93,6 +94,10 @@ class MyApp extends StatelessWidget {
       ),
     ),
 
+     BlocProvider(
+      create: (_) => Todobloc(),
+    ),
+
     BlocProvider(
       create: (_) => StudentBloc(
         StudentRepository(
@@ -104,6 +109,7 @@ class MyApp extends StatelessWidget {
   create: (_) => ProductBloc(
     ProductRepository(),
   ),
+  
 ),
 
   ],
@@ -124,7 +130,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const Serchbar(),
+        home: const ToDoList(),
       ),
     );
   }

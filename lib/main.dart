@@ -13,6 +13,8 @@ import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/p
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crud/presentatation/bloc/todobloc.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/presentation/bloc/blocfile.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/scrrens/uifile.dart';
 import 'package:flutter_bloc_lab/ui-practices/counterscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/loginscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/serchbar.dart';
@@ -99,6 +101,10 @@ class MyApp extends StatelessWidget {
     ),
 
     BlocProvider(
+      create: (_) => Blocfile(),
+    ),
+
+    BlocProvider(
       create: (_) => StudentBloc(
         StudentRepository(
           StudentServices(),
@@ -130,7 +136,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const ToDoList(),
+        home: const Uifile(),
       ),
     );
   }

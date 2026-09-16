@@ -6,6 +6,9 @@ class Blocfile extends Bloc<Eventfile, Statefile> {
   Blocfile() : super(Statefile([])) {
 
     on<AddNote>((event, emit) {
+      if (event.note.trim().isEmpty) {
+        return;
+      }
       final noteslist = [...state.notes, event.note];
       emit(Statefile(noteslist));
     });

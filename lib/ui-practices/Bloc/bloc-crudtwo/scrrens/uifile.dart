@@ -26,7 +26,42 @@ class _UifileState extends State<Uifile> {
             return ListView.builder(
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
-                return ListTile(title: Text(state.notes[index]));
+                return ListTile(
+                  title: Text(state.notes[index]),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                    onPressed: () {
+                      context.read<Blocfile>().add(DeleteNote(index));
+                    },
+                    icon: Icon(Icons.delete),
+                  ),
+                  IconButton(onPressed: () {
+                    noteController.text = state.notes[index];
+                    showDialog(
+                      context: context, 
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Update Note"),
+                          content: TextField(controller: noteController),
+                          actions: [
+                            TextButton(onPressed: () {
+                              context.read<Blocfile>().add(UpdateNote(index, noteController.text));
+                              noteController.clear();
+                              Navigator.pop(context);
+                            }, child: Text("Update")),
+                            SizedBox(width: 5),
+                            TextButton(onPressed: () {
+                              Navigator.pop(context);
+                            }, child: Text("Cancel")),
+                          ],
+                        );
+                      }); 
+                  }, icon: Icon(Icons.update))
+                    ],
+                  ),
+                );
               },
             );
           },
@@ -35,20 +70,41 @@ class _UifileState extends State<Uifile> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          noteController.clear();
           showDialog(
-            context: context, 
+            context: context,
             builder: (context) {
               return AlertDialog(
                 title: Text('Add Note'),
                 content: TextField(controller: noteController),
                 actions: [
+                  TextButton(
+                    onPressed: () {
+                      context.read<Blocfile>().add(
+                        AddNote(noteController.text),
+                      );
+                      Navigator.pop(context);
+                      noteController.clear();
+                    },
+                    child: Text("Add"),
+                  ),
+                  SizedBox(width: 5),
                   TextButton(onPressed: () {
-                    context.read<Blocfile>().add(AddNote(noteController.text));
-                  }, child: Text("Add"))
+                    Navigator.pop(context);
+                  }, child: Text("Cancel"))
                 ],
               );
-            });
-        }),
+            },
+          );
+        },
+        child: Icon(Icons.add),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    noteController.dispose();
+    super.dispose();
   }
 }

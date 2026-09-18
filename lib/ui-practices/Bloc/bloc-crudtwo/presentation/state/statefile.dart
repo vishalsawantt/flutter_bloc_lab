@@ -1,4 +1,5 @@
 class Statefile {
   final List<String> notes;
-  Statefile(this.notes);
+  final String? message;
+  Statefile(this.notes, {this.message});
 }

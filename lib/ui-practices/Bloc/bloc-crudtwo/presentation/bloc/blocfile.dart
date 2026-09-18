@@ -10,19 +10,19 @@ class Blocfile extends Bloc<Eventfile, Statefile> {
         return;
       }
       final noteslist = [...state.notes, event.note];
-      emit(Statefile(noteslist));
+      emit(Statefile(noteslist, message: "Note Added!"));
     });
 
     on<UpdateNote>((event, emit) {
       final noteslist = [...state.notes];
       noteslist[event.index] = event.updatednote;
-      emit(Statefile(noteslist));
+      emit(Statefile(noteslist, message: "Note Updated!"));
     });
 
     on<DeleteNote>((event, emit) {
       final noteslist = [...state.notes];
       noteslist.removeAt(event.index);
-      emit(Statefile(noteslist));
+      emit(Statefile(noteslist, message: "Note Deleted!"));
     });
   }
 }

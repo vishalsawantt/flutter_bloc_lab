@@ -19,53 +19,71 @@ class _UifileState extends State<Uifile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Bloc UI")),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: BlocBuilder<Blocfile, Statefile>(
-          builder: (context, state) {
-            return ListView.builder(
-              itemCount: state.notes.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(state.notes[index]),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                    onPressed: () {
-                      context.read<Blocfile>().add(DeleteNote(index));
-                    },
-                    icon: Icon(Icons.delete),
-                  ),
-                  IconButton(onPressed: () {
-                    noteController.text = state.notes[index];
-                    showDialog(
-                      context: context, 
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text("Update Note"),
-                          content: TextField(controller: noteController),
-                          actions: [
-                            TextButton(onPressed: () {
-                              context.read<Blocfile>().add(UpdateNote(index, noteController.text));
-                              noteController.clear();
-                              Navigator.pop(context);
-                            }, child: Text("Update")),
-                            SizedBox(width: 5),
-                            TextButton(onPressed: () {
-                              Navigator.pop(context);
-                            }, child: Text("Cancel")),
-                          ],
+      body: BlocConsumer<Blocfile, Statefile>(
+        listener: (context, state) {
+          final message = state.message;
+
+          if (message != null) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(message)));
+          }
+        },
+        builder: (context, state) {
+          return ListView.builder(
+            itemCount: state.notes.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(state.notes[index]),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        context.read<Blocfile>().add(DeleteNote(index));
+                      },
+                      icon: Icon(Icons.delete),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        noteController.text = state.notes[index];
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Update Note"),
+                              content: TextField(controller: noteController),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    context.read<Blocfile>().add(
+                                      UpdateNote(index, noteController.text),
+                                    );
+                                    noteController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Update"),
+                                ),
+                                SizedBox(width: 5),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            );
+                          },
                         );
-                      }); 
-                  }, icon: Icon(Icons.update))
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        ),
+                      },
+                      icon: Icon(Icons.update),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -89,9 +107,12 @@ class _UifileState extends State<Uifile> {
                     child: Text("Add"),
                   ),
                   SizedBox(width: 5),
-                  TextButton(onPressed: () {
-                    Navigator.pop(context);
-                  }, child: Text("Cancel"))
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Cancel"),
+                  ),
                 ],
               );
             },

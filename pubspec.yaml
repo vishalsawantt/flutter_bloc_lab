@@ -20,6 +20,7 @@ dependencies:
   equatable: ^2.0.7
   google_fonts: ^6.1.0
   firebase_messaging: ^16.4.3
+  http: ^1.6.0
   # ML Kit (Receipt Scanner)
   # google_mlkit_text_recognition: ^0.13.0
   # UI

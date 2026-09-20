@@ -15,6 +15,9 @@ import 'package:flutter_bloc_lab/firebase_options.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crud/presentatation/bloc/todobloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/presentation/bloc/blocfile.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/scrrens/uifile.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/data/inventory_service.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/presentation/bloc/inventory_bloc.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/presentation/screens/inventory_screen.dart';
 import 'package:flutter_bloc_lab/ui-practices/counterscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/loginscreen.dart';
 import 'package:flutter_bloc_lab/ui-practices/serchbar.dart';
@@ -105,6 +108,10 @@ class MyApp extends StatelessWidget {
     ),
 
     BlocProvider(
+  create: (context) => InventoryBloc(InventoryService()),
+),
+
+    BlocProvider(
       create: (_) => StudentBloc(
         StudentRepository(
           StudentServices(),
@@ -136,7 +143,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const Uifile(),
+        home: const InventoryScreen(),
       ),
     );
   }

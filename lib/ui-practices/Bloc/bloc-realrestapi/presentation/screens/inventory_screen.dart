@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/presentation/bloc/inventory_bloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/presentation/event/inventory_event.dart';
+import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/presentation/screens/inventory_details_screen.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-realrestapi/presentation/state/inventory_state.dart';
 
 class InventoryScreen extends StatefulWidget {
@@ -37,6 +38,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   ), // nested — product's name
                   subtitle: Text('Price: ${inventory.product.price}'),
                   trailing: Text('Qty: ${inventory.quantity}'),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(inventory: inventory)));
+                  },
                 );
               },
             );

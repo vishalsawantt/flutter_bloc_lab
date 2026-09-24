@@ -12,6 +12,7 @@ import 'package:flutter_bloc_lab/features/rest-api-with-bloc/data/repository/rep
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/product_bloc.dart';
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
+import 'package:flutter_bloc_lab/navigation-practice/router.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crud/presentatation/bloc/todobloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/presentation/bloc/blocfile.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/scrrens/uifile.dart';
@@ -136,14 +137,20 @@ class MyApp extends StatelessWidget {
       //   home: const ProductListScreen(),
       // ),
 
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-          ),
-        ),
-        home: const InventoryScreen(),
+      // child: MaterialApp(
+      //   debugShowCheckedModeBanner: false,
+      //   theme: ThemeData(
+      //     colorScheme: ColorScheme.fromSeed(
+      //       seedColor: Colors.deepPurple,
+      //     ),
+      //   ),
+      //   home: const InventoryScreen(),
+      // ),
+
+      //for nevigation
+      child: MaterialApp.router(
+        routerConfig: router,
+        
       ),
     );
   }

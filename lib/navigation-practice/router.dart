@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/', builder: (context, state) => const ScreenA()),
+    // GoRoute(path: '/', builder: (context, state) => const ScreenA()),
 
-    GoRoute(path: '/screenb', builder: (context, state) => const ScreenB()),
+    // GoRoute(path: '/screenb', builder: (context, state) => const ScreenB()),
 
     GoRoute(
       path: '/screenc',

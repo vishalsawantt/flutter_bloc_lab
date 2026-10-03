@@ -13,6 +13,9 @@ import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/bloc/p
 import 'package:flutter_bloc_lab/features/rest-api-with-bloc/presentation/screens/product_list_screen.dart';
 import 'package:flutter_bloc_lab/firebase_options.dart';
 import 'package:flutter_bloc_lab/navigation-practice/router.dart';
+import 'package:flutter_bloc_lab/navigation-practice/screen_a.dart';
+import 'package:flutter_bloc_lab/navigation-practice/screen_b.dart';
+import 'package:flutter_bloc_lab/navigation-practice/unknownroute.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crud/presentatation/bloc/todobloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/presentation/bloc/blocfile.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/scrrens/uifile.dart';
@@ -44,7 +47,7 @@ import 'features/listfeatch/presentation/screens/list_screen.dart';
 //   // await notificationService.initialize();
 
 //   print("App Started");
-  
+
 //   final repository = StudentRepository(StudentServices());
 //   final students = await repository.getStudents();
 //   print('------------------------------------------------------------------------------------------------------------------------------');
@@ -58,14 +61,11 @@ import 'features/listfeatch/presentation/screens/list_screen.dart';
 //   runApp(const MyApp());
 // }
 
-
 //same code for ui screen run
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   print("App Started");
 
@@ -89,69 +89,84 @@ class MyApp extends StatelessWidget {
     //       StudentServices(),
     //     ),
     //   ),
-    return MultiBlocProvider(
-  providers: [
+    // return MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider(
+    //       create: (_) => StudentCubit(StudentRepository(StudentServices())),
+    //     ),
 
-    BlocProvider(
-      create: (_) => StudentCubit(
-        StudentRepository(
-          StudentServices(),
-        ),
-      ),
-    ),
+    //     BlocProvider(create: (_) => Todobloc()),
 
-     BlocProvider(
-      create: (_) => Todobloc(),
-    ),
+    //     BlocProvider(create: (_) => Blocfile()),
 
-    BlocProvider(
-      create: (_) => Blocfile(),
-    ),
+    //     BlocProvider(create: (context) => InventoryBloc(InventoryService())),
 
-    BlocProvider(
-  create: (context) => InventoryBloc(InventoryService()),
-),
+    //     BlocProvider(
+    //       create: (_) => StudentBloc(StudentRepository(StudentServices())),
+    //     ),
+    //     BlocProvider(create: (_) => ProductBloc(ProductRepository())),
+    //   ],
+    //   // child: MaterialApp(
+    //   //   debugShowCheckedModeBanner: false,
+    //   //   theme: ThemeData(
+    //   //     colorScheme: ColorScheme.fromSeed(
+    //   //       seedColor: Colors.deepPurple,
+    //   //     ),
+    //   //   ),
+    //   //   home: const ProductListScreen(),
+    //   // ),
 
-    BlocProvider(
-      create: (_) => StudentBloc(
-        StudentRepository(
-          StudentServices(),
-        ),
-      ),
-    ),
-    BlocProvider(
-  create: (_) => ProductBloc(
-    ProductRepository(),
-  ),
-  
-),
+    //   // child: MaterialApp(
+    //   //   debugShowCheckedModeBanner: false,
+    //   //   theme: ThemeData(
+    //   //     colorScheme: ColorScheme.fromSeed(
+    //   //       seedColor: Colors.deepPurple,
+    //   //     ),
+    //   //   ),
+    //   //   home: const InventoryScreen(),
+    //   // ),
 
-  ],
-      // child: MaterialApp(
-      //   debugShowCheckedModeBanner: false,
-      //   theme: ThemeData(
-      //     colorScheme: ColorScheme.fromSeed(
-      //       seedColor: Colors.deepPurple,
-      //     ),
-      //   ),
-      //   home: const ProductListScreen(),
-      // ),
+    //   //for nevigation
+    //   child: MaterialApp.router(routerConfig: router),
+    // );
 
-      // child: MaterialApp(
-      //   debugShowCheckedModeBanner: false,
-      //   theme: ThemeData(
-      //     colorScheme: ColorScheme.fromSeed(
-      //       seedColor: Colors.deepPurple,
-      //     ),
-      //   ),
-      //   home: const InventoryScreen(),
-      // ),
+    //Simple route
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //    initialRoute: '/',
 
-      //for nevigation
-      child: MaterialApp.router(
-        routerConfig: router,
-        
-      ),
+    //   routes: {
+    //     '/': (context) => const ScreenA(),
+    //     '/screenB': (context) => const ScreenB(),
+    //   },
+    // );
+
+    //Simple-Settign route
+    return MaterialApp(
+  debugShowCheckedModeBanner: false,
+
+  initialRoute: '/',
+
+  onGenerateRoute: (settings) {
+    if (settings.name == '/') {
+      return MaterialPageRoute(
+        builder: (context) => const ScreenA(),
+      );
+    }
+
+    if (settings.name == '/screenB') {
+      return MaterialPageRoute(
+        builder: (context) => const ScreenB(),
+      );
+    }
+
+    return null;
+  },
+  onUnknownRoute: (settings) {
+    return MaterialPageRoute(
+      builder: (context) => const UnknownRouteScreen(),
     );
+  },
+);
   }
 }

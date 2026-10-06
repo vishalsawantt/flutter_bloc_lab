@@ -33,6 +33,8 @@ dependencies:
   # flutter_inappwebview: ^6.1.5
   flutter_local_notifications: ^17.2.2
   dio: ^5.11.0
+  sqflite: ^2.3.0
+  path: ^1.8.0
   # flutter_native_splash: ^2.4.1 
   # package_info_plus: ^8.0.0  # gets current app version
   # url_launcher: ^6.3.0       # opens Play Store

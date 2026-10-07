@@ -16,6 +16,8 @@ import 'package:flutter_bloc_lab/navigation-practice/router.dart';
 import 'package:flutter_bloc_lab/navigation-practice/screen_a.dart';
 import 'package:flutter_bloc_lab/navigation-practice/screen_b.dart';
 import 'package:flutter_bloc_lab/navigation-practice/unknownroute.dart';
+import 'package:flutter_bloc_lab/sqlite-notes/presentation/bloc/note_bloc.dart';
+import 'package:flutter_bloc_lab/sqlite-notes/presentation/screens/note_screen.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crud/presentatation/bloc/todobloc.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/presentation/bloc/blocfile.dart';
 import 'package:flutter_bloc_lab/ui-practices/Bloc/bloc-crudtwo/scrrens/uifile.dart';
@@ -142,31 +144,47 @@ class MyApp extends StatelessWidget {
     // );
 
     //Simple-Settign route
-    return MaterialApp(
-  debugShowCheckedModeBanner: false,
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
 
-  initialRoute: '/',
+    //   initialRoute: '/',
 
-  onGenerateRoute: (settings) {
-    if (settings.name == '/') {
-      return MaterialPageRoute(
-        builder: (context) => const ScreenA(),
-      );
-    }
+    //   onGenerateRoute: (settings) {
+    //     if (settings.name == '/') {
+    //       return MaterialPageRoute(builder: (context) => const ScreenA());
+    //     }
 
-    if (settings.name == '/screenB') {
-      return MaterialPageRoute(
-        builder: (context) => const ScreenB(),
-      );
-    }
+    //     if (settings.name == '/screenB') {
+    //       return MaterialPageRoute(builder: (context) => const ScreenB());
+    //     }
 
-    return null;
-  },
-  onUnknownRoute: (settings) {
-    return MaterialPageRoute(
-      builder: (context) => const UnknownRouteScreen(),
-    );
-  },
+    //     return null;
+    //   },
+    //   onUnknownRoute: (settings) {
+    //     return MaterialPageRoute(
+    //       builder: (context) => const UnknownRouteScreen(),
+    //     );
+    //   },
+    // );
+
+    return MultiBlocProvider(
+  providers: [
+    BlocProvider(create: (_) => NoteBloc()),
+    // you can leave the others commented, or restore them too if you need them
+  ],
+  child: MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: '/',
+    onGenerateRoute: (settings) {
+      if (settings.name == '/') {
+        return MaterialPageRoute(builder: (context) => const NoteScreen());
+      }
+      return null;
+    },
+    onUnknownRoute: (settings) {
+      return MaterialPageRoute(builder: (context) => const UnknownRouteScreen());
+    },
+  ),
 );
   }
 }

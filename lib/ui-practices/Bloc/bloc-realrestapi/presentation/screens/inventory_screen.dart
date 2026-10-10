@@ -22,7 +22,18 @@ class _InventoryScreenState extends State<InventoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("REST Product")),
+      // appBar: AppBar(title: Text("REST Product")),
+      appBar: AppBar(
+  title: Text("REST Product"),
+  actions: [
+    IconButton(
+      icon: Icon(Icons.refresh),
+      onPressed: () {
+        context.read<InventoryBloc>().add(fetchInventory());
+      },
+    ),
+  ],
+),
       body: BlocBuilder<InventoryBloc, InventoryState>(
         builder: (context, state) {
           if (state is InventoryLoading) {

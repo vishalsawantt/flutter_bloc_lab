@@ -167,23 +167,41 @@ class MyApp extends StatelessWidget {
     //   },
     // );
 
+    // return MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider(create: (_) => NoteBloc()),
+    //     // you can leave the others commented, or restore them too if you need them
+    //   ],
+    //   child: MaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     initialRoute: '/',
+    //     onGenerateRoute: (settings) {
+    //       if (settings.name == '/') {
+    //         return MaterialPageRoute(builder: (context) => const NoteScreen());
+    //       }
+    //       return null;
+    //     },
+    //     onUnknownRoute: (settings) {
+    //       return MaterialPageRoute(
+    //         builder: (context) => const UnknownRouteScreen(),
+    //       );
+    //     },
+    //   ),
+    // );
     return MultiBlocProvider(
   providers: [
-    BlocProvider(create: (_) => NoteBloc()),
-    // you can leave the others commented, or restore them too if you need them
+    BlocProvider(
+      create: (_) => InventoryBloc(InventoryService()),
+    ),
   ],
   child: MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: '/',
-    onGenerateRoute: (settings) {
-      if (settings.name == '/') {
-        return MaterialPageRoute(builder: (context) => const NoteScreen());
-      }
-      return null;
-    },
-    onUnknownRoute: (settings) {
-      return MaterialPageRoute(builder: (context) => const UnknownRouteScreen());
-    },
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+      ),
+    ),
+    home: const InventoryScreen(),
   ),
 );
   }
